@@ -13,6 +13,7 @@ import { useAuth } from "@/context/AuthContext"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
 import { LoginScreen } from "@/screens/LoginScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
+import { WeatherScreen } from "@/screens/WeatherScreen"
 import { useAppTheme } from "@/theme/context"
 
 // import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
@@ -30,6 +31,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Welcome: undefined
   Login: undefined
+  Weather: undefined
   // Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
@@ -70,6 +72,7 @@ const AppStack = () => {
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Weather" component={WeatherScreen} />
 
           {/* <Stack.Screen name="Demo" component={DemoNavigator} /> */}
         </>

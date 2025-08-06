@@ -25,9 +25,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(_pro
   const { logout } = useAuth()
 
   function goNext() {
-    // Navigate to your main app screen instead of demo
-    // For now, we'll just stay on the welcome screen
-    // You can add your own navigation here later
+    navigation.navigate("Weather")
   }
 
   useHeader(
