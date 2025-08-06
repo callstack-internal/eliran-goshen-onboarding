@@ -16,7 +16,7 @@ const fetchWeatherData = async (city: string): Promise<WeatherData> => {
     const apiKey = process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY
     console.log(`apiKey: ${apiKey}`)
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=imperial&appid=${apiKey}`
     )
     
     if (!response.ok) {
@@ -41,7 +41,7 @@ export const getWeatherIconUrl = (iconCode: string) => {
 
 // Helper function to format temperature
 export const formatTemperature = (temp: number) => {
-  return `${Math.round(temp)}°C`
+  return `${Math.round(temp)}°F`
 }
 
 // Helper function to format weather description

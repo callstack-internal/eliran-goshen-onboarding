@@ -1,31 +1,35 @@
-import React, { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, StyleSheet, ViewStyle } from 'react-native'
 import { Screen } from '@/components/Screen'
 import { useWeatherQuery, formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '@/query/queries'
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native'
+import type { AppStackScreenProps } from '@/navigators/AppNavigator'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
-export const WeatherScreen: React.FC = () => {
-  const [city, setCity] = useState('London')
+export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = (props) => {
+  const route = useRoute<RouteProp<{ Weather: { city: string } }, 'Weather'>>()
+  const navigation = useNavigation()
+  const [city, setCity] = useState(route.params?.city || 'London')
   const { data: weatherData, isLoading, error, refetch } = useWeatherQuery(city)
+  const insets = useSafeAreaInsets()
 
-  const handleSearch = () => {
-    refetch()
+  
+
+  // Update city when route params change
+  useEffect(() => {
+    if (route.params?.city) {
+      setCity(route.params.city)
+    }
+  }, [route.params?.city])
+
+  const handleGoBack = () => {
+    navigation.goBack()
   }
 
   return (
-    <Screen preset="scroll" style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          value={city}
-          onChangeText={setCity}
-          placeholder="Enter city name..."
-          placeholderTextColor="#666"
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSearch}>
-          <Text style={styles.buttonText}>Search</Text>
-        </TouchableOpacity>
-      </View>
+    <Screen preset="fixed" style={styles.container}>
+      
 
       {isLoading && (
         <View style={styles.centerContainer}>
@@ -83,6 +87,10 @@ export const WeatherScreen: React.FC = () => {
               <Text style={styles.detailLabel}>Pressure:</Text>
               <Text style={styles.detailValue}>{weatherData.main.pressure} hPa</Text>
             </View>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Cloud cover:</Text>
+              <Text style={styles.detailValue}>{weatherData.clouds.all}%</Text>
+            </View>
           </View>
         </View>
       )}
@@ -93,21 +101,35 @@ export const WeatherScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    backgroundColor: '#f8f9fa',
   },
-  searchContainer: {
+  header: {
     flexDirection: 'row',
-    marginBottom: 20,
-    gap: 10,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     backgroundColor: '#fff',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#c7c7cc',
+  },
+  backButton: {
+    padding: 12,
+    marginLeft: -8,
+  },
+  backButtonText: {
+    fontSize: 28,
+    color: '#007AFF',
+    fontWeight: '400',
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#000',
+    textAlign: 'center',
+  },
+  placeholder: {
+    width: 44,
   },
   button: {
     backgroundColor: '#007AFF',
@@ -139,6 +161,7 @@ const styles = StyleSheet.create({
   },
   weatherContainer: {
     alignItems: 'center',
+    paddingTop: 16,
   },
   cityName: {
     fontSize: 28,

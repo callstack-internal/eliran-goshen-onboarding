@@ -14,6 +14,7 @@ import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
 import { LoginScreen } from "@/screens/LoginScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { WeatherScreen } from "@/screens/WeatherScreen"
+import { WeatherListScreen } from "@/screens/WeatherListScreen"
 import { useAppTheme } from "@/theme/context"
 
 // import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
@@ -29,9 +30,10 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
+  WeatherList: undefined
   Welcome: undefined
   Login: undefined
-  Weather: undefined
+  Weather: { city: string }
   // Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
@@ -61,16 +63,17 @@ const AppStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         navigationBarColor: colors.background,
         contentStyle: {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      initialRouteName={isAuthenticated ? "WeatherList" : "Login"}
     >
       {isAuthenticated ? (
         <>
+          <Stack.Screen name="WeatherList" component={WeatherListScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Weather" component={WeatherScreen} />
 
