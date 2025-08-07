@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, Image, ActivityIndicator, StyleSheet, ViewStyle } from 'react-native'
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, ViewStyle } from 'react-native'
+import { Image } from 'expo-image'
 import { Screen } from '@/components/Screen'
 import { useWeatherQuery, formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '@/query/queries'
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native'
+import { useRoute, RouteProp } from '@react-navigation/native'
 import type { AppStackScreenProps } from '@/navigators/AppNavigator'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
-export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = (props) => {
+
+export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
   const route = useRoute<RouteProp<{ Weather: { city: string } }, 'Weather'>>()
-  const navigation = useNavigation()
   const [city, setCity] = useState(route.params?.city || 'London')
   const { data: weatherData, isLoading, error, refetch } = useWeatherQuery(city)
-  const insets = useSafeAreaInsets()
 
   
 
@@ -23,9 +22,7 @@ export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = (props) =
     }
   }, [route.params?.city])
 
-  const handleGoBack = () => {
-    navigation.goBack()
-  }
+  
 
   return (
     <Screen preset="fixed" style={styles.container}>

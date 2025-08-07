@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, Image, TouchableOpacity, FlatList, StyleSheet, ViewStyle } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, ViewStyle } from 'react-native'
+import { Image } from 'expo-image'
 import { Screen } from '@/components/Screen'
 import { useWeatherQuery, formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '@/query/queries'
 import { useNavigation } from '@react-navigation/native'
