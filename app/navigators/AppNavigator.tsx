@@ -5,20 +5,16 @@
  * and a "main" flow which the user will use once logged in.
  */
 import { ComponentProps } from "react"
-import { NavigationContainer, NavigatorScreenParams } from "@react-navigation/native"
+import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 
-import Config from "@/config"
-import { useAuth } from "@/context/AuthContext"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
-import { LoginScreen } from "@/screens/LoginScreen"
-import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { WeatherScreen } from "@/screens/WeatherScreen"
 import { WeatherListScreen } from "@/screens/WeatherListScreen"
 import { useAppTheme } from "@/theme/context"
 
 // import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
-import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { navigationRef } from "./navigationUtilities"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -31,19 +27,12 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 export type AppStackParamList = {
   WeatherList: undefined
-  Welcome: undefined
-  Login: undefined
   Weather: { city: string }
   // Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
-/**
- * This is a list of all the route names that will exit the app if the back button
- * is pressed while in that screen. Only affects Android.
- */
-const exitRoutes = Config.exitRoutes
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStackScreenProps<
   AppStackParamList,
@@ -54,8 +43,6 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = () => {
-  const { isAuthenticated } = useAuth()
-
   const {
     theme: { colors },
   } = useAppTheme()
@@ -69,21 +56,14 @@ const AppStack = () => {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName={isAuthenticated ? "WeatherList" : "Login"}
+      initialRouteName="WeatherList"
     >
-      {isAuthenticated ? (
-        <>
-          <Stack.Screen name="WeatherList" component={WeatherListScreen} />
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="Weather" component={WeatherScreen} />
+      <>
+        <Stack.Screen name="WeatherList" component={WeatherListScreen} />
+        <Stack.Screen name="Weather" component={WeatherScreen} />
 
-          {/* <Stack.Screen name="Demo" component={DemoNavigator} /> */}
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </>
-      )}
+        {/* <Stack.Screen name="Demo" component={DemoNavigator} /> */}
+      </>
 
       {/** 🔥 Your screens go here */}
       {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
@@ -97,11 +77,11 @@ export interface NavigationProps
 export const AppNavigator = (props: NavigationProps) => {
   const { navigationTheme } = useAppTheme()
 
-  useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
+  
 
   return (
     <NavigationContainer ref={navigationRef} theme={navigationTheme} {...props}>
-      <ErrorBoundary catchErrors={Config.catchErrors}>
+      <ErrorBoundary catchErrors={"dev"}>
         <AppStack />
       </ErrorBoundary>
     </NavigationContainer>

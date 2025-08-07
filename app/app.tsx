@@ -25,7 +25,6 @@ import { KeyboardProvider } from "react-native-keyboard-controller"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { AuthProvider } from "./context/AuthContext"
 import { initI18n } from "./i18n"
 import { AppNavigator } from "./navigators/AppNavigator"
 import { ThemeProvider } from "./theme/context"
@@ -98,13 +97,11 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <KeyboardProvider>
-          <AuthProvider>
-            <ThemeProvider>
-              <AppNavigator
-                linking={linking}
-              />
-            </ThemeProvider>
-          </AuthProvider>
+          <ThemeProvider>
+            <AppNavigator
+              linking={linking}
+            />
+          </ThemeProvider>
         </KeyboardProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
