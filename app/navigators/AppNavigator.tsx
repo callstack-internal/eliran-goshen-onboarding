@@ -4,14 +4,17 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import { ComponentProps } from "react"
+import React, { ComponentProps } from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { TouchableOpacity } from "react-native"
 
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
 import { WeatherScreen } from "@/screens/WeatherScreen"
 import { WeatherListScreen } from "@/screens/WeatherListScreen"
+import { SearchScreen } from "@/screens/SearchScreen"
 import { useAppTheme } from "@/theme/context"
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 // import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef } from "./navigationUtilities"
@@ -28,6 +31,7 @@ import { navigationRef } from "./navigationUtilities"
 export type AppStackParamList = {
   WeatherList: undefined
   Weather: { city: string }
+  Search: undefined
   // Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
@@ -59,8 +63,31 @@ const AppStack = () => {
       initialRouteName="WeatherList"
     >
       <>
-        <Stack.Screen name="WeatherList" component={WeatherListScreen} />
+        <Stack.Screen 
+          name="WeatherList" 
+          component={WeatherListScreen}
+          options={({ navigation }) => ({
+            title: 'Weather',
+            headerRight: () => (
+              <TouchableOpacity 
+                onPress={() => navigation.navigate('Search')}
+                style={{ marginRight: 16 }}
+              >
+                {React.createElement(MaterialIcons as any, {
+                  name: "search",
+                  size: 24,
+                  color: "#007AFF"
+                })}
+              </TouchableOpacity>
+            ),
+          })}
+        />
         <Stack.Screen name="Weather" component={WeatherScreen} />
+        <Stack.Screen 
+          name="Search" 
+          component={SearchScreen} 
+          options={{ headerShown: false }}
+        />
 
         {/* <Stack.Screen name="Demo" component={DemoNavigator} /> */}
       </>

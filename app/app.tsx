@@ -35,20 +35,9 @@ import { loadDateFnsLocale } from "./utils/formatDate"
 const prefix = Linking.createURL("/")
 const config = {
   screens: {
-    Login: {
-      path: "",
-    },
-    Welcome: "welcome",
-    Demo: {
-      screens: {
-        DemoShowroom: {
-          path: "showroom/:queryIndex?/:itemIndex?",
-        },
-        DemoDebug: "debug",
-        DemoPodcastList: "podcast",
-        DemoCommunity: "community",
-      },
-    },
+    WeatherList: "",
+    Weather: "weather/:city",
+    Search: "search",
   },
 }
 

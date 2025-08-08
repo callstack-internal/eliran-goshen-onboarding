@@ -1,8 +1,37 @@
-# Welcome to your new ignited app!
+# Weather App
 
-> The latest and greatest boilerplate for Infinite Red opinions
+A React Native weather application built with Ignite boilerplate that displays weather information for various cities.
 
-This is the boilerplate that [Infinite Red](https://infinite.red) uses as a way to test bleeding-edge changes to our React Native stack.
+## Features
+
+- **Weather List**: View weather information for multiple cities
+- **Search Functionality**: Search through a list of cities to find specific weather information
+- **Detailed Weather View**: See detailed weather information for selected cities
+- **Temperature Display**: Shows temperatures in Fahrenheit
+- **Real-time Weather Data**: Fetches current weather data from OpenWeatherMap API
+
+## Search Feature
+
+The app includes a search functionality that allows users to:
+- Search through a list of 50+ cities
+- View up to 5 search results at a time
+- Navigate to weather details for any selected city
+- Clear search results with a single tap
+
+### How to Use Search
+
+1. Tap the search icon in the top-right corner of the Weather List screen
+2. Type the name of a city in the search bar
+3. Select a city from the results to view its weather details
+4. Use the back button to return to the search screen
+5. Use the X button to clear the search and see all available cities
+
+## Getting Started
+
+```bash
+yarn install
+yarn start
+```
 
 - [Quick start documentation](https://github.com/infinitered/ignite/blob/master/docs/boilerplate/Boilerplate.md)
 - [Full documentation](https://github.com/infinitered/ignite/blob/master/docs/README.md)

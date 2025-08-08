@@ -6,23 +6,7 @@ import { useWeatherQuery, formatTemperature, formatWeatherDescription, getWeathe
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { AppStackParamList } from '@/navigators/AppNavigator'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
-
-
-const cities = [
-   "Kyiv",
-   "Sumy",
-   "Warsaw",
-   "Wrocław",
-   "Prague",
-   "České Budějovice",
-   "Berlin",
-   "Munich",
-   "Aachen",
-   "Washington",
-   "New York City",
-]
+import { useCities } from '@/hooks/useCities'
 
 interface WeatherListItemProps {
   item: string
@@ -81,13 +65,15 @@ const WeatherListItem: React.FC<WeatherListItemProps> = ({ item, onPress }) => {
 
 export const WeatherListScreen: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
-  const insets = useSafeAreaInsets()
+  const { cities } = useCities()
 
-  
-  
   const handleCityPress = (cityName: string) => {
     // Navigate to detailed weather screen with city name
     navigation.navigate('Weather', { city: cityName })
+  }
+
+  const handleSearchPress = () => {
+    navigation.navigate('Search')
   }
 
   const renderItem = ({ item }: { item: string }) => {
@@ -117,18 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f9fa',
   },
-  header: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: 'center',
-  },
+
   listContainer: {
     padding: 10,
   },
