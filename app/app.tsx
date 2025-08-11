@@ -30,6 +30,7 @@ import { AppNavigator } from "./navigators/AppNavigator"
 import { ThemeProvider } from "./theme/context"
 import { customFontsToLoad } from "./theme/typography"
 import { loadDateFnsLocale } from "./utils/formatDate"
+import { DatabaseProvider } from "./database/DatabaseProvider"
 
 // Web linking configuration
 const prefix = Linking.createURL("/")
@@ -87,9 +88,11 @@ export function App() {
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <KeyboardProvider>
           <ThemeProvider>
-            <AppNavigator
-              linking={linking}
-            />
+            <DatabaseProvider>
+              <AppNavigator
+                linking={linking}
+              />
+            </DatabaseProvider>
           </ThemeProvider>
         </KeyboardProvider>
       </SafeAreaProvider>
