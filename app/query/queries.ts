@@ -14,7 +14,7 @@ export const useWeatherQuery = (city: string) => {
     // Fetch weather data function
 const fetchWeatherData = async (city: string): Promise<WeatherData> => {
     const apiKey = process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY
-    console.log(`apiKey: ${apiKey}`)
+    
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=imperial&appid=${apiKey}`
     )

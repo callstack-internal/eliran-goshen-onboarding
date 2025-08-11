@@ -14,7 +14,7 @@ import { WeatherScreen } from "@/screens/WeatherScreen"
 import { WeatherListScreen } from "@/screens/WeatherListScreen"
 import { SearchScreen } from "@/screens/SearchScreen"
 import { useAppTheme } from "@/theme/context"
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { MaterialIcons } from '@expo/vector-icons'
 
 // import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef } from "./navigationUtilities"
@@ -73,11 +73,7 @@ const AppStack = () => {
                 onPress={() => navigation.navigate('Search')}
                 style={{ marginRight: 16 }}
               >
-                {React.createElement(MaterialIcons as any, {
-                  name: "search",
-                  size: 24,
-                  color: "#007AFF"
-                })}
+                <MaterialIcons name="search" size={24} color="#007AFF"/>
               </TouchableOpacity>
             ),
           })}

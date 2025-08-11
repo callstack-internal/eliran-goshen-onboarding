@@ -15,7 +15,7 @@ interface WeatherListItemProps {
 }
 
 const WeatherListItem: React.FC<WeatherListItemProps> = ({ item, onPress }) => {
-  console.log('WeatherListItem rendering for city:', item) // Debug log
+  console.log('WeatherListItem rendering for city:', item); // Debug log
   const { data: weatherData, isLoading } = useWeatherQuery(item)
 
   if (isLoading || !weatherData) {

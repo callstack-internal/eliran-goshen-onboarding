@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, TextInput } from 'react-native'
 import { Screen } from '@/components/Screen'
 import { useNavigation } from '@react-navigation/native'
@@ -7,12 +7,24 @@ import type { AppStackParamList } from '@/navigators/AppNavigator'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Icon } from '@/components/Icon'
 import { useCities } from '@/hooks/useCities'
+import { MaterialIcons } from '@expo/vector-icons'
 
 export const SearchScreen: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
   const [searchQuery, setSearchQuery] = useState('')
+  const [recentCities, setRecentCities] = useState<string[]>([])
   const insets = useSafeAreaInsets()
-  const { cities } = useCities()
+  const { cities, getCities } = useCities()
+
+  // Load recent cities on mount
+  useEffect(() => {
+    loadRecentCities()
+  }, [])
+
+  const loadRecentCities = async () => {
+    const recent = await getCities()
+    setRecentCities(recent)
+  }
 
   const filteredCities = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -35,6 +47,18 @@ export const SearchScreen: React.FC = () => {
       onPress={() => handleCityPress(item)}
     >
       <Text style={styles.cityText}>{item}</Text>
+    </TouchableOpacity>
+  )
+
+  const renderRecentCityItem = ({ item }: { item: string }) => (
+    <TouchableOpacity 
+      style={styles.cityItem} 
+      onPress={() => handleCityPress(item)}
+    >
+      <View style={styles.recentItemContent}>
+    <MaterialIcons name="history" size={20} style={styles.historyIcon} />
+        <Text style={styles.cityText}>{item}</Text>
+      </View>
     </TouchableOpacity>
   )
 
@@ -61,10 +85,26 @@ export const SearchScreen: React.FC = () => {
         </View>
       </View>
       
+      {/* Recent Cities Section */}
+      {recentCities.length > 0 && !searchQuery.trim() && (
+        <View style={styles.recentSection}>
+          <Text style={styles.sectionTitle}>Recent</Text>
+          <FlatList
+            data={recentCities}
+            renderItem={renderRecentCityItem}
+            keyExtractor={(item) => `recent-${item}`}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={false}
+            contentContainerStyle={styles.recentListContainer}
+          />
+        </View>
+      )}
+      
+      {/* Search Results */}
       <FlatList
         data={filteredCities}
         renderItem={renderCityItem}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => `search-${item}`}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}
       />
@@ -126,5 +166,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     fontWeight: '500',
+  },
+  recentSection: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 12,
+  },
+  recentListContainer: {
+    paddingBottom: 8,
+  },
+  historyIcon: {
+    marginRight: 12,
+    color: '#666',
+  },
+  recentItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })

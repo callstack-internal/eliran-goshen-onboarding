@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, ViewStyle } from 'react-native'
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native'
 import { Image } from 'expo-image'
 import { Screen } from '@/components/Screen'
-import { useWeatherQuery, formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '@/query/queries'
+import { useWeatherQuery,  getWeatherIconUrl } from '@/query/queries'
 import { useRoute, RouteProp } from '@react-navigation/native'
 import type { AppStackScreenProps } from '@/navigators/AppNavigator'
+import { formatTemperature, formatWeatherDescription } from '@/utils/weatherUtil'
+import { useCities } from '@/hooks/useCities' 
 
 
 
@@ -12,6 +14,12 @@ export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
   const route = useRoute<RouteProp<{ Weather: { city: string } }, 'Weather'>>()
   const [city, setCity] = useState(route.params?.city || 'London')
   const { data: weatherData, isLoading, error, refetch } = useWeatherQuery(city)
+  const { addCityToHistory } = useCities()
+  
+  useEffect(() => {
+    console.log('adding city to history', city)
+    addCityToHistory(city)
+  }, [])
 
   
 
