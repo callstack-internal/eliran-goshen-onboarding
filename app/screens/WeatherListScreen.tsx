@@ -2,11 +2,12 @@ import React from 'react'
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, ViewStyle } from 'react-native'
 import { Image } from 'expo-image'
 import { Screen } from '@/components/Screen'
-import { useWeatherQuery, formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '@/query/queries'
+import { useWeatherQuery, getWeatherIconUrl } from '@/query/queries'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import type { AppStackParamList } from '@/navigators/AppNavigator'
 import { useCities } from '@/hooks/useCities'
+import { formatTemperature, formatWeatherDescription } from '@/utils/weatherUtil'
 
 interface WeatherListItemProps {
   item: string

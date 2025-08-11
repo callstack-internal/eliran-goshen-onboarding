@@ -1,4 +1,5 @@
-import { formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '@/query/queries'
+import { getWeatherIconUrl } from '@/query/queries'
+import { formatTemperature, formatWeatherDescription } from '@/utils/weatherUtil'
 
 describe('WeatherScreen Logic', () => {
   describe('Weather data formatting', () => {

@@ -1,4 +1,5 @@
-import { formatTemperature, formatWeatherDescription, getWeatherIconUrl } from '../queries'
+import { getWeatherIconUrl } from '../queries'
+import { formatTemperature, formatWeatherDescription } from '@/utils/weatherUtil'
 
 describe('Weather Queries', () => {
   describe('formatTemperature', () => {
