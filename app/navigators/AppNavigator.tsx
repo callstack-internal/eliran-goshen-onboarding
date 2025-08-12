@@ -4,17 +4,17 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import React, { ComponentProps } from "react"
+import { ComponentProps } from "react"
+import { TouchableOpacity, StyleSheet } from "react-native"
+import { MaterialIcons } from "@expo/vector-icons"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
-import { TouchableOpacity } from "react-native"
 
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
-import { WeatherScreen } from "@/screens/WeatherScreen"
-import { WeatherListScreen } from "@/screens/WeatherListScreen"
 import { SearchScreen } from "@/screens/SearchScreen"
+import { WeatherListScreen } from "@/screens/WeatherListScreen"
+import { WeatherScreen } from "@/screens/WeatherScreen"
 import { useAppTheme } from "@/theme/context"
-import { MaterialIcons } from '@expo/vector-icons'
 
 // import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef } from "./navigationUtilities"
@@ -32,11 +32,7 @@ export type AppStackParamList = {
   WeatherList: undefined
   Weather: { city: string }
   Search: undefined
-  // Demo: NavigatorScreenParams<DemoTabParamList>
-  // 🔥 Your screens go here
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
-
 
 export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStackScreenProps<
   AppStackParamList,
@@ -63,27 +59,23 @@ const AppStack = () => {
       initialRouteName="WeatherList"
     >
       <>
-        <Stack.Screen 
-          name="WeatherList" 
+        <Stack.Screen
+          name="WeatherList"
           component={WeatherListScreen}
           options={({ navigation }) => ({
-            title: 'Weather',
+            title: "Weather",
             headerRight: () => (
-              <TouchableOpacity 
-                onPress={() => navigation.navigate('Search')}
-                style={{ marginRight: 16 }}
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Search")}
+                style={styles.searchButton}
               >
-                <MaterialIcons name="search" size={24} color="#007AFF"/>
+                <MaterialIcons name="search" size={24} color="#007AFF" />
               </TouchableOpacity>
             ),
           })}
         />
         <Stack.Screen name="Weather" component={WeatherScreen} />
-        <Stack.Screen 
-          name="Search" 
-          component={SearchScreen} 
-          options={{ headerShown: false }}
-        />
+        <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
 
         {/* <Stack.Screen name="Demo" component={DemoNavigator} /> */}
       </>
@@ -94,13 +86,17 @@ const AppStack = () => {
   )
 }
 
+const styles = StyleSheet.create({
+  searchButton: {
+    marginRight: 16,
+  },
+})
+
 export interface NavigationProps
   extends Partial<ComponentProps<typeof NavigationContainer<AppStackParamList>>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
   const { navigationTheme } = useAppTheme()
-
-  
 
   return (
     <NavigationContainer ref={navigationRef} theme={navigationTheme} {...props}>

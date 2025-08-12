@@ -6,10 +6,7 @@ import {
   createNavigationContainerRef,
 } from "@react-navigation/native"
 
-import * as storage from "@/utils/storage"
-
 import type { AppStackParamList } from "./AppNavigator"
-
 
 /**
  * Reference to the root App Navigator.
@@ -90,15 +87,12 @@ export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
   }, [])
 }
 
-
-
 /**
  * Custom hook for persisting navigation state.
  * @param {Storage} storage - The storage utility to use.
  * @param {string} persistenceKey - The key to use for storing the navigation state.
  * @returns {object} - The navigation state and persistence functions.
  */
-
 
 /**
  * use this to navigate without the navigation

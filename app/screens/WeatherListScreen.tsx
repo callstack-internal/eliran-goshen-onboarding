@@ -1,13 +1,14 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, ViewStyle } from 'react-native'
-import { Image } from 'expo-image'
-import { Screen } from '@/components/Screen'
-import { useWeatherQuery, getWeatherIconUrl } from '@/query/queries'
-import { useNavigation } from '@react-navigation/native'
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import type { AppStackParamList } from '@/navigators/AppNavigator'
-import { useCities } from '@/hooks/useCities'
-import { formatTemperature, formatWeatherDescription } from '@/utils/weatherUtil'
+// eslint-disable-next-line no-restricted-imports
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native"
+import { Image } from "expo-image"
+import { useNavigation } from "@react-navigation/native"
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack"
+
+import { Screen } from "@/components/Screen"
+import { useCities } from "@/hooks/useCities"
+import type { AppStackParamList } from "@/navigators/AppNavigator"
+import { useWeatherQuery, getWeatherIconUrl } from "@/query/queries"
+import { formatTemperature, formatWeatherDescription } from "@/utils/weatherUtil"
 
 interface WeatherListItemProps {
   item: string
@@ -15,7 +16,7 @@ interface WeatherListItemProps {
 }
 
 const WeatherListItem: React.FC<WeatherListItemProps> = ({ item, onPress }) => {
-  console.log('WeatherListItem rendering for city:', item); // Debug log
+  console.log("WeatherListItem rendering for city:", item) // Debug log
   const { data: weatherData, isLoading } = useWeatherQuery(item)
 
   if (isLoading || !weatherData) {
@@ -42,21 +43,19 @@ const WeatherListItem: React.FC<WeatherListItemProps> = ({ item, onPress }) => {
     <TouchableOpacity style={styles.listItem} onPress={onPress}>
       <View style={styles.leftSection}>
         <Image
-          source={{ uri: getWeatherIconUrl(weatherData.weather[0]?.icon || '01d') }}
+          source={{ uri: getWeatherIconUrl(weatherData.weather[0]?.icon || "01d") }}
           style={styles.weatherIcon}
         />
         <View style={styles.textSection}>
           <Text style={styles.cityName}>{item}</Text>
           <Text style={styles.weatherStatus}>
-            {formatWeatherDescription(weatherData.weather[0]?.description || 'Unknown')}
+            {formatWeatherDescription(weatherData.weather[0]?.description || "Unknown")}
           </Text>
         </View>
       </View>
       <View style={styles.rightSection}>
         <View style={styles.temperatureChip}>
-          <Text style={styles.temperatureText}>
-            {formatTemperature(weatherData.main.temp)}
-          </Text>
+          <Text style={styles.temperatureText}>{formatTemperature(weatherData.main.temp)}</Text>
         </View>
         <Text style={styles.caretIcon}>›</Text>
       </View>
@@ -70,20 +69,11 @@ export const WeatherListScreen: React.FC = () => {
 
   const handleCityPress = (cityName: string) => {
     // Navigate to detailed weather screen with city name
-    navigation.navigate('Weather', { city: cityName })
-  }
-
-  const handleSearchPress = () => {
-    navigation.navigate('Search')
+    navigation.navigate("Weather", { city: cityName })
   }
 
   const renderItem = ({ item }: { item: string }) => {
-    return (
-      <WeatherListItem
-        item={item}
-        onPress={() => handleCityPress(item)}
-      />
-    )
+    return <WeatherListItem item={item} onPress={() => handleCityPress(item)} />
   }
 
   return (
@@ -102,21 +92,21 @@ export const WeatherListScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
   },
 
   listContainer: {
     padding: 10,
   },
   listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
     marginBottom: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,
@@ -126,8 +116,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   leftSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   weatherIcon: {
@@ -138,43 +128,43 @@ const styles = StyleSheet.create({
   weatherIconPlaceholder: {
     width: 50,
     height: 50,
-    backgroundColor: '#e9ecef',
+    backgroundColor: "#e9ecef",
     borderRadius: 25,
     marginRight: 12,
   },
   textSection: {
     flex: 1,
-    backgroundColor: 'transparent', // Debug: make sure it's visible
+    backgroundColor: "transparent", // Debug: make sure it's visible
   },
   cityName: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
+    fontWeight: "600",
+    color: "#000",
     marginBottom: 4,
   },
   weatherStatus: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
   },
   rightSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   temperatureChip: {
-    backgroundColor: '#007AFF',
+    backgroundColor: "#007AFF",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
     marginRight: 12,
   },
   temperatureText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   caretIcon: {
     fontSize: 18,
-    color: '#999',
-    fontWeight: 'bold',
+    color: "#999",
+    fontWeight: "bold",
   },
-}) 
+})

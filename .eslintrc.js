@@ -11,7 +11,7 @@ module.exports = {
     "plugin:react/jsx-runtime",
     "prettier",
   ],
-  plugins: ["reactotron", "prettier"],
+  plugins: ["reactotron", "prettier", "react-hooks"],
   rules: {
     "prettier/prettier": "error",
     // typescript-eslint
@@ -55,7 +55,12 @@ module.exports = {
     ],
     // react
     "react/prop-types": 0,
+    // react-hooks
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     // react-native
+    "react-native/sort-styles": "off",
+    "react-native/no-color-literals": "off",
     "react-native/no-raw-text": 0,
     // reactotron
     "reactotron/no-tron-in-production": "error",

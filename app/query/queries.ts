@@ -1,28 +1,27 @@
-import { useQuery } from '@tanstack/react-query'
-import { WeatherData } from './types'
+import { useQuery } from "@tanstack/react-query"
+
+import { WeatherData } from "./types"
 
 // Query keys for React Query
 export const weatherQueryKeys = {
-  all: ['weather'] as const,
-  byCity: (city: string) => [...weatherQueryKeys.all, 'city', city] as const,
+  all: ["weather"] as const,
+  byCity: (city: string) => [...weatherQueryKeys.all, "city", city] as const,
 }
-
-
 
 // Custom hook for fetching weather data
 export const useWeatherQuery = (city: string) => {
-    // Fetch weather data function
-const fetchWeatherData = async (city: string): Promise<WeatherData> => {
+  // Fetch weather data function
+  const fetchWeatherData = async (city: string): Promise<WeatherData> => {
     const apiKey = process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY
-    
+
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=imperial&appid=${apiKey}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=imperial&appid=${apiKey}`,
     )
-    
+
     if (!response.ok) {
       throw new Error(`Weather API error: ${response.status}`)
     }
-    
+
     return response.json()
   }
   return useQuery({

@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native'
-import { Image } from 'expo-image'
-import { Screen } from '@/components/Screen'
-import { useWeatherQuery,  getWeatherIconUrl } from '@/query/queries'
-import { useRoute, RouteProp } from '@react-navigation/native'
-import type { AppStackScreenProps } from '@/navigators/AppNavigator'
-import { formatTemperature, formatWeatherDescription } from '@/utils/weatherUtil'
-import { useCities } from '@/hooks/useCities' 
+import { useState, useEffect } from "react"
+// eslint-disable-next-line no-restricted-imports
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from "react-native"
+import { Image } from "expo-image"
+import { useRoute, RouteProp } from "@react-navigation/native"
 
+import { Screen } from "@/components/Screen"
+import { useCities } from "@/hooks/useCities"
+import type { AppStackScreenProps } from "@/navigators/AppNavigator"
+import { useWeatherQuery, getWeatherIconUrl } from "@/query/queries"
+import { formatTemperature, formatWeatherDescription } from "@/utils/weatherUtil"
 
-
-export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
-  const route = useRoute<RouteProp<{ Weather: { city: string } }, 'Weather'>>()
-  const [city, setCity] = useState(route.params?.city || 'London')
+export const WeatherScreen: React.FC<AppStackScreenProps<"Weather">> = () => {
+  const route = useRoute<RouteProp<{ Weather: { city: string } }, "Weather">>()
+  const [city, setCity] = useState(route.params?.city || "London")
   const { data: weatherData, isLoading, error, refetch } = useWeatherQuery(city)
   const { addCityToHistory } = useCities()
-  
-  useEffect(() => {
-    console.log('adding city to history', city)
-    addCityToHistory(city)
-  }, [])
 
-  
+  useEffect(() => {
+    console.log("adding city to history", city)
+    addCityToHistory(city)
+  }, [addCityToHistory, city])
 
   // Update city when route params change
   useEffect(() => {
@@ -30,12 +28,8 @@ export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
     }
   }, [route.params?.city])
 
-  
-
   return (
     <Screen preset="fixed" style={styles.container}>
-      
-
       {isLoading && (
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color="#007AFF" />
@@ -46,7 +40,7 @@ export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
       {error && (
         <View style={styles.centerContainer}>
           <Text style={styles.errorText}>
-            Error: {error instanceof Error ? error.message : 'Failed to fetch weather data'}
+            Error: {error instanceof Error ? error.message : "Failed to fetch weather data"}
           </Text>
           <TouchableOpacity style={styles.button} onPress={() => refetch()}>
             <Text style={styles.buttonText}>Retry</Text>
@@ -57,16 +51,14 @@ export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
       {weatherData && (
         <View style={styles.weatherContainer}>
           <Text style={styles.cityName}>{weatherData.name}</Text>
-          
+
           {weatherData.weather[0] && (
             <View style={styles.weatherInfo}>
               <Image
                 source={{ uri: getWeatherIconUrl(weatherData.weather[0].icon) }}
                 style={styles.weatherIcon}
               />
-              <Text style={styles.temperature}>
-                {formatTemperature(weatherData.main.temp)}
-              </Text>
+              <Text style={styles.temperature}>{formatTemperature(weatherData.main.temp)}</Text>
               <Text style={styles.description}>
                 {formatWeatherDescription(weatherData.weather[0].description)}
               </Text>
@@ -106,76 +98,49 @@ export const WeatherScreen: React.FC<AppStackScreenProps<'Weather'>> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#fff',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#c7c7cc',
-  },
-  backButton: {
-    padding: 12,
-    marginLeft: -8,
-  },
-  backButtonText: {
-    fontSize: 28,
-    color: '#007AFF',
-    fontWeight: '400',
-  },
-  headerTitle: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#000',
-    textAlign: 'center',
-  },
-  placeholder: {
-    width: 44,
-  },
+
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: "#007AFF",
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 8,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
   errorText: {
     fontSize: 16,
-    color: '#FF3B30',
-    textAlign: 'center',
+    color: "#FF3B30",
+    textAlign: "center",
     marginBottom: 20,
   },
   weatherContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 16,
   },
   cityName: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   weatherInfo: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
   },
   weatherIcon: {
@@ -185,34 +150,34 @@ const styles = StyleSheet.create({
   },
   temperature: {
     fontSize: 48,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   description: {
     fontSize: 18,
-    color: '#666',
-    textTransform: 'capitalize',
+    color: "#666",
+    textTransform: "capitalize",
   },
   detailsContainer: {
-    width: '100%',
-    backgroundColor: '#f8f9fa',
+    width: "100%",
+    backgroundColor: "#f8f9fa",
     borderRadius: 12,
     padding: 20,
   },
   detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    borderBottomColor: "#e9ecef",
   },
   detailLabel: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
   detailValue: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
-}) 
+})

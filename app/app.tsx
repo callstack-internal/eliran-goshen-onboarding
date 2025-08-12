@@ -21,16 +21,16 @@ import "./utils/gestureHandler"
 import { useEffect, useState } from "react"
 import { useFonts } from "expo-font"
 import * as Linking from "expo-linking"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { KeyboardProvider } from "react-native-keyboard-controller"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+import { DatabaseProvider } from "./database/DatabaseProvider"
 import { initI18n } from "./i18n"
 import { AppNavigator } from "./navigators/AppNavigator"
 import { ThemeProvider } from "./theme/context"
 import { customFontsToLoad } from "./theme/typography"
 import { loadDateFnsLocale } from "./utils/formatDate"
-import { DatabaseProvider } from "./database/DatabaseProvider"
 
 // Web linking configuration
 const prefix = Linking.createURL("/")
@@ -89,9 +89,7 @@ export function App() {
         <KeyboardProvider>
           <ThemeProvider>
             <DatabaseProvider>
-              <AppNavigator
-                linking={linking}
-              />
+              <AppNavigator linking={linking} />
             </DatabaseProvider>
           </ThemeProvider>
         </KeyboardProvider>
